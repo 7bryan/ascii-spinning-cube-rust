@@ -45,7 +45,7 @@ fn calculate_surface(
 
     let luminance = (nx * light_x) + (ny * light_y) + (nz * light_z);
 
-    if luminance > -0.2 {
+    if luminance > 0.0 {
         let mut lum_index = (luminance * 11.0).round() as isize;
         if lum_index < 0 {
             lum_index = 0;
@@ -81,7 +81,7 @@ fn main() {
     let mut b: f64 = 0.0;
     let mut c: f64 = 0.0;
 
-    print!("\x1b[2J");
+    print!("\x1b[2J\x1b[?25l");
 
     loop {
         let mut buffer = [' '; WIDTH * HEIGHT];
@@ -180,15 +180,23 @@ fn main() {
             cube_x += INCREMENT_SPEED;
         }
 
-        print!("\x1b[H");
+        //         print!("\x1b[H");
+        //
+        //         for y in 0..HEIGHT {
+        //             for x in 0..WIDTH {
+        //                 print!("{}", buffer[y * WIDTH + x]);
+        //             }
+        //             println!();
+        //         }
 
-        for y in 0..HEIGHT {
-            for x in 0..WIDTH {
-                print!("{}", buffer[y * WIDTH + x]);
-            }
-            println!();
+        let mut output = String::with_capacity((WIDTH + 1) * HEIGHT + 4);
+        output.push_str("\x1b[H");
+        for row in buffer.chunks(WIDTH) {
+            output.extend(row);
+            output.push('\n');
         }
 
+        print!("{}", output);
         stdout().flush().unwrap();
 
         a += 0.05;
