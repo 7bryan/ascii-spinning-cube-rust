@@ -20,7 +20,7 @@ fn rotate_3d(x: f64, y: f64, z: f64, a: f64, b: f64, c: f64) -> (f64, f64, f64) 
     let zx: f64 = yx * c.cos() - xy * c.sin();
     let zy: f64 = yx * c.sin() + xy * c.cos();
 
-    (zx, zy, yz);
+    (zx, zy, yz)
 }
 
 fn calculate_surface(
@@ -64,10 +64,10 @@ fn calculate_surface(
         let k1 = 40.0;
 
         let xp = (WIDTH as f64 / 2.0 + k1 * ooz * x * 2.0) as isize;
-        let yp = (HEIGHT as f64 / 2.0 + k1 * ooz * x) as isize;
+        let yp = (HEIGHT as f64 / 2.0 + k1 * ooz * y) as isize;
 
         if xp >= 0 && xp < WIDTH as isize && yp >= 0 && yp < HEIGHT as isize {
-            let idx = (xp + xp * WIDTH as isize) as usize;
+            let idx = (xp + yp * WIDTH as isize) as usize;
             if ooz > z_buffer[idx] {
                 z_buffer[idx] = ooz;
                 buffer[idx] = ch;
@@ -81,7 +81,7 @@ fn main() {
     let mut b: f64 = 0.0;
     let mut c: f64 = 0.0;
 
-    print!("/x1b[2J");
+    print!("\x1b[2J");
 
     loop {
         let mut buffer = [' '; WIDTH * HEIGHT];
@@ -137,7 +137,7 @@ fn main() {
                     cube_x,
                     -CUBE_WIDTH,
                     cube_y,
-                    0.1,
+                    0.0,
                     -1.0,
                     0.0,
                     a,
