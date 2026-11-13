@@ -3,7 +3,7 @@ use std::thread::sleep;
 use std::time::Duration;
 
 const WIDTH: usize = 80;
-const HEIGHT: usize = 24;
+const HEIGHT: usize = 38;
 const CUBE_WIDTH: f64 = 20.0;
 const INCREMENT_SPEED: f64 = 0.6;
 
@@ -13,7 +13,7 @@ fn rotate_3d(x: f64, y: f64, z: f64, a: f64, b: f64, c: f64) -> (f64, f64, f64) 
     let xz: f64 = y * a.sin() + z * a.cos();
 
     // y axis rotation
-    let yx: f64 = x * b.cos() + xy * b.sin();
+    let yx: f64 = x * b.cos() + xz * b.sin();
     let yz: f64 = -x * b.sin() + xz * b.cos();
 
     // z axis rotation
@@ -90,7 +90,7 @@ fn main() {
         let mut cube_x = -CUBE_WIDTH;
         while cube_x < CUBE_WIDTH {
             let mut cube_y = -CUBE_WIDTH;
-            while cube_y > CUBE_WIDTH {
+            while cube_y < CUBE_WIDTH {
                 // front back
                 calculate_surface(
                     cube_x,
